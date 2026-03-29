@@ -28,9 +28,17 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	if err != nil {
 		return
 	}
+	if ds.Steps <= 0 {
+		err = errors.New("invalid parameter value")
+		return
+	}
 
 	ds.Duration, err = time.ParseDuration(splitData[1])
 	if err != nil {
+		return
+	}
+	if ds.Duration <= 0 {
+		err = errors.New("invalid parameter value")
 		return
 	}
 

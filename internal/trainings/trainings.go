@@ -30,6 +30,8 @@ func (t *Training) Parse(datastring string) (err error) {
 		return
 	}
 
+	t.TrainingType = splitData[1]
+
 	t.Duration, err = time.ParseDuration(splitData[2])
 	if err != nil {
 		return
@@ -39,7 +41,7 @@ func (t *Training) Parse(datastring string) (err error) {
 }
 
 func (t Training) ActionInfo() (string, error) {
-	if t.TrainingType != "Бег" && t.TrainingType != "Ходьба" {
+	if t.TrainingType != "Бег" || t.TrainingType != "Ходьба" {
 		return "", errors.New("неизвестный тип тренировки")
 	}
 
