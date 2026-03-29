@@ -41,8 +41,7 @@ func (t *Training) Parse(datastring string) (err error) {
 }
 
 func (t Training) ActionInfo() (string, error) {
-	TrainingType := t.TrainingType
-	if rightType {
+	if !(t.TrainingType == "Бег" || t.TrainingType == "Ходьба") {
 		return "", errors.New("неизвестный тип тренировки")
 	}
 
