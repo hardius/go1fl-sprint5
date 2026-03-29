@@ -38,13 +38,13 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 }
 
 func (ds DaySteps) ActionInfo() (string, error) {
-	calories, err := spentenergy.WalkingSpentCalories(ds.Steps, ds.Weight, ds.Height, ds.Duration)
+	calories, err := spentenergy.WalkingSpentCalories(ds.Steps, ds.Personal.Weight, ds.Personal.Height, ds.Duration)
 	if err != nil {
 		return "", err
 	}
 
 	result := fmt.Sprintf("Количество шагов: %d.\n", ds.Steps)
-	result += fmt.Sprintf("Дистанция составила %.2f км.\n", spentenergy.Distance(ds.Steps, ds.Height))
+	result += fmt.Sprintf("Дистанция составила %.2f км.\n", spentenergy.Distance(ds.Steps, ds.Personal.Height))
 	result += fmt.Sprintf("Вы сожгли %.2f ккал.\n", calories)
 	return result, nil
 }

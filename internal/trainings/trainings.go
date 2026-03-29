@@ -46,12 +46,12 @@ func (t Training) ActionInfo() (string, error) {
 	var calories float64
 	var err error
 	if t.TrainingType == "Бег" {
-		calories, err = spentenergy.RunningSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
+		calories, err = spentenergy.RunningSpentCalories(t.Steps, t.Personal.Weight, t.Personal.Height, t.Duration)
 		if err != nil {
 			return "", err
 		}
 	} else {
-		calories, err = spentenergy.WalkingSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
+		calories, err = spentenergy.WalkingSpentCalories(t.Steps, t.Personal.Weight, t.Personal.Height, t.Duration)
 		if err != nil {
 			return "", err
 		}
@@ -59,8 +59,8 @@ func (t Training) ActionInfo() (string, error) {
 
 	result := fmt.Sprintf("Тип тренировки: %s\n", t.TrainingType)
 	result += fmt.Sprintf("Длительность: %.2f ч.\n", t.Duration.Hours())
-	result += fmt.Sprintf("Дистанция: %.2f км.\n", spentenergy.Distance(t.Steps, t.Height))
-	result += fmt.Sprintf("Скорость: %.2f км/ч\n", spentenergy.MeanSpeed(t.Steps, t.Height, t.Duration))
+	result += fmt.Sprintf("Дистанция: %.2f км.\n", spentenergy.Distance(t.Steps, t.Personal.Height))
+	result += fmt.Sprintf("Скорость: %.2f км/ч\n", spentenergy.MeanSpeed(t.Steps, t.Personal.Height, t.Duration))
 	result += fmt.Sprintf("Сожгли калорий: %.2f\n", calories)
 	return result, nil
 }

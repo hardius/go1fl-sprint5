@@ -14,7 +14,7 @@ const (
 )
 
 func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
-	invalidParameters := steps < 0 || weight < 0 || height < 0 || duration <= 0
+	invalidParameters := steps <= 0 || weight <= 0 || height <= 0 || duration <= 0
 	if invalidParameters {
 		return 0, errors.New("invalid parameter values")
 	}
@@ -26,7 +26,7 @@ func WalkingSpentCalories(steps int, weight, height float64, duration time.Durat
 }
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
-	invalidParameters := steps < 0 || weight < 0 || height < 0 || duration <= 0
+	invalidParameters := steps <= 0 || weight <= 0 || height <= 0 || duration <= 0
 	if invalidParameters {
 		return 0, errors.New("invalid parameter values")
 	}
