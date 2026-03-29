@@ -29,11 +29,19 @@ func (t *Training) Parse(datastring string) (err error) {
 	if err != nil {
 		return
 	}
+	if t.Steps <= 0 {
+		err = errors.New("invalid parameter value")
+		return
+	}
 
 	t.TrainingType = splitData[1]
 
 	t.Duration, err = time.ParseDuration(splitData[2])
 	if err != nil {
+		return
+	}
+	if t.Duration <= 0 {
+		err = errors.New("invalid parameter value")
 		return
 	}
 
