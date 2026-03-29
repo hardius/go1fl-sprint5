@@ -1,13 +1,66 @@
 package trainings
 
+import (
+	"errors"
+	"fmt"
+	"strconv"
+	"strings"
+	"time"
+
+	"github.com/Yandex-Practicum/tracker/internal/personaldata"
+	"github.com/Yandex-Practicum/tracker/internal/spentenergy"
+)
+
 type Training struct {
-	// TODO: добавить поля
+	Steps        int
+	TrainingType string
+	Duration     time.Duration
+	personaldata.Personal
 }
 
 func (t *Training) Parse(datastring string) (err error) {
-	// TODO: реализовать функцию
+	splitData := strings.Split(datastring, ",")
+	if len(splitData) != 3 {
+		err = errors.New("invalid parameter value")
+		return
+	}
+
+	t.Steps, err = strconv.Atoi(splitData[0])
+	if err != nil {
+		return
+	}
+
+	t.Duration, err = time.ParseDuration(splitData[2])
+	if err != nil {
+		return
+	}
+
+	return
 }
 
 func (t Training) ActionInfo() (string, error) {
-	// TODO: реализовать функцию
+	if t.TrainingType != "Бег" && t.TrainingType != "Ходьба" {
+		return "", errors.New("неизвестный тип тренировки")
+	}
+
+	var calories float64
+	var err error
+	if t.TrainingType == "Бег" {
+		calories, err = spentenergy.RunningSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
+		if err != nil {
+			return "", err
+		}
+	} else {
+		calories, err = spentenergy.WalkingSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	result := fmt.Sprintf("Тип тренировки: %s\n", t.TrainingType)
+	result += fmt.Sprintf("Длительность: %.2f ч.\n", t.Duration.Hours())
+	result += fmt.Sprintf("Дистанция: %.2f км.\n", spentenergy.Distance(t.Steps, t.Height))
+	result += fmt.Sprintf("Скорость: %.2f км/ч\n", spentenergy.MeanSpeed(t.Steps, t.Height, t.Duration))
+	result += fmt.Sprintf("Сожгли калорий: %.2f\n", calories)
+	return result, nil
 }
