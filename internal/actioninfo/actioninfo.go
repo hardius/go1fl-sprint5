@@ -17,15 +17,14 @@ func Info(dataset []string, dp DataParser) {
 		err = dp.Parse(v)
 		if err != nil {
 			log.Println(err)
-			err = nil
 		}
 
 		info, err = dp.ActionInfo()
 		if err != nil {
 			log.Println(err)
-			err = nil
-		} else {
-			fmt.Print(info)
+			continue
 		}
+
+		fmt.Print(info)
 	}
 }

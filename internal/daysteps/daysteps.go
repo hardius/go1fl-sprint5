@@ -26,7 +26,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 
 	ds.Steps, err = strconv.Atoi(splitData[0])
 	if err != nil {
-		return
+		return fmt.Errorf("invalid steps format: %w", err)
 	}
 	if ds.Steps <= 0 {
 		err = errors.New("invalid parameter value")
